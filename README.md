@@ -1,5 +1,5 @@
 # Gamedig Discord Bot
-This is a bot implementation for the Discord API to announce server availability, publish the game server data as the current Activity of the bot user.
+This is a bot implementation for the Discord API to announce server availability, publish the game server data as the current activity of the bot.
 This supports a wide range of different game types and only requires the game servers hostname / IP address as well as the query port. No api credentials or similar things are needed.
 This protocol will query the game server directly. Please make sure that the host where the bot is hosted, is able to access the game server on the specified query port.
 

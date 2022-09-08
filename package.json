@@ -5,7 +5,8 @@
   "scripts": {
     "build": "gulp",
     "prestart": "npm run build",
-    "start": "node ."
+    "start": "node .",
+    "publish": "docker build -t gamedig-discord-bot . && docker image tag gamedig-discord-bot bl3rune/gamedig-discord-bot:latest && docker image push bl3rune/gamedig-discord-bot:latest"
   },
   "devDependencies": {
     "@types/gamedig": "^3.0.2",
