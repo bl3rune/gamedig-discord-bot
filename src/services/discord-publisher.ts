@@ -32,14 +32,15 @@ private serverAvailable = false;
         if (status === undefined) {
             if (this.serverAvailable) {
                 this.announce(false);
+            
+                await this.client.user?.setPresence({
+                    status: 'idle',
+                    activities: [{
+                    type: ActivityType.Watching,
+                    name: 'the server do nothing'
+                    }],
+                });
             }
-            await this.client.user?.setPresence({
-                status: 'idle',
-                activities: [{
-                   type: ActivityType.Watching,
-                   name: 'the server do nothing'
-                }],
-            });
             this.serverAvailable = false;
         } else {
             let name = '';
