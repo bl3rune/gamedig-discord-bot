@@ -1,12 +1,11 @@
 {
   "name": "gamedig-discord-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "gulp",
     "prestart": "npm run build",
-    "start": "node .",
-    "publish": "docker build -t gamedig-discord-bot . && docker image tag gamedig-discord-bot bl3rune/gamedig-discord-bot:latest && docker image push bl3rune/gamedig-discord-bot:latest"
+    "start": "node ."
   },
   "devDependencies": {
     "@types/gamedig": "^3.0.2",
