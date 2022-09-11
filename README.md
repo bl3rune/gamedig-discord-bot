@@ -46,3 +46,4 @@ You need to set the following configuration options.
 | FALSE    | `DISCORD_CHANNEL`       | The channel id of your discord chat to send server availability to | `string` |
 | FALSE    | `UP.####`               | Message to be sent on server available for game type #### (DISCORD_CHANNEL must be provided) | `string` |
 | FALSE    | `DOWN.####`             | Message to be sent on server unavailable for game type #### (DISCORD_CHANNEL must be provided) | `string` |
+| FALSE    | `IDLE_STATUS`           | Override idle status messaging for the bot when no servers are available | `string` |

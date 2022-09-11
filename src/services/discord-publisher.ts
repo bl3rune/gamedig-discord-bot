@@ -35,7 +35,7 @@ private serverUp: Map<Type,boolean>;
             status: 'idle',
             activities: [{
             type: ActivityType.Watching,
-            name: 'the server do nothing'
+            name: process.env.IDLE_STATUS || 'No servers running'
             }],
         });
     }
