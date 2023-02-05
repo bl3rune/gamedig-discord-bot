@@ -70,11 +70,12 @@ private serverUp: Map<Type,boolean>;
             let activity = this.buildActivityText(s);
             
             if (activities != '') {
-                activities = activities + ' ///// ';
+                activities = activities + activitySeperator;
             }
             activities = activities + activity;
             if (!this.serverUp.get(s.game)) {
                 console.log(`${s.game} : ${activity}`);
+                console.log(status);
                 this.announce(s.game, true);
             }
             this.serverUp.set(s.game,true);
@@ -121,12 +122,17 @@ private serverUp: Map<Type,boolean>;
 
         let nameOverride = process.env['NAME_OVERRIDE' + '.' + response.game];
         if (nameOverride) {
-            name = `${(status as any)[nameOverride]}`;
+            name = nameOverride;
         }
 
-        let rawNameOverride = process.env['RAW_NAME_OVERRIDE' + '.' + response.game];
-        if (rawNameOverride && name === '') {
-            name = `${raw[rawNameOverride]}`;
+        let nameField = process.env['NAME_FIELD' + '.' + response.game];
+        if (nameField  && name === '') {
+            name = `${(status as any)[nameField]}`;
+        }
+
+        let rawNameField = process.env['RAW_NAME_FIELD' + '.' + response.game];
+        if (rawNameField && name === '') {
+            name = `${raw[rawNameField]}`;
         }
 
         if (name === '') {
