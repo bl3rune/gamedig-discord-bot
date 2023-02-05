@@ -31,7 +31,7 @@ Here are some examples below:
 - Omitting port number `przomboid:mysite.com`
 - With port number `minecraft:mysite.com:25565`
 - Using ip instead of hostname `csgo:23.4.140.70`
-- Multiple defined in `GAME_URLS` config `przomboid:mysite.com,minecraft:mysite.com`
+- Multiple defined in `GAME_URLS` config `minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com`
 
 ### Configure the bot
 
@@ -39,11 +39,15 @@ When running as a docker container provide the following as Docker environment v
 When running as a nodejs app you can create an `.env` file in the root directory of the project and set the options there (see the `.env.example` file for an example). 
 You need to set the following configuration options.
 
-| Required | Configuration option    | Description | Value  |
-| -------- | ----------------------- | ----------- | ------ |
-| TRUE     | `GAME_URLS`             | Comma seperated list of GameUrl format entries [see GameUrl format section](#gameurl-format) | `string` |
-| TRUE     | `DISCORD_TOKEN`         | The bot token of your discord app from https://discord.com/developers/applications -> (Select your application) -> Bot -> Token | `string` |
-| FALSE    | `DISCORD_CHANNEL`       | The channel id of your discord chat to send server availability to | `string` |
-| FALSE    | `UP.####`               | Message to be sent on server available for game type #### (DISCORD_CHANNEL must be provided) | `string` |
-| FALSE    | `DOWN.####`             | Message to be sent on server unavailable for game type #### (DISCORD_CHANNEL must be provided) | `string` |
-| FALSE    | `IDLE_STATUS`           | Override idle status messaging for the bot when no servers are available | `string` |
+| Required | Configuration option   | Description | Value  |
+| -------- | ---------------------- | ----------- | ------ |
+| TRUE     | `GAME_URLS`            | Comma seperated list of GameUrl format entries [see GameUrl format section](#gameurl-format)                                    | `string` |
+| TRUE     | `DISCORD_TOKEN`        | The bot token of your discord app from https://discord.com/developers/applications -> (Select your application) -> Bot -> Token | `string` |
+| FALSE    | `DISCORD_CHANNEL`      | The channel id of your discord chat to send server availability to                                                              | `string` |
+| FALSE    | `UP.####`              | Message to be sent on server available for game type #### (DISCORD_CHANNEL must be provided)                                    | `string` |
+| FALSE    | `DOWN.####`            | Message to be sent on server unavailable for game type #### (DISCORD_CHANNEL must be provided)                                  | `string` |
+| FALSE    | `IDLE_STATUS`          | Override idle status messaging for the bot when no servers are available                                                        | `string` |
+| FALSE    | `SEPERATOR`            | Override the seperator text that appears between multiple activities                                                            | `string` |
+| FALSE    | `NAME_OVERRIDE.####`   | Override the activity name for game type #### with : variable string value                                                      | `string` |
+| FALSE    | `NAME_FIELD.####`      | Override the activity name for game type #### with : field on the response object (response[NAME_FIELD])                        | `string` |
+| FALSE    | `RAW_NAME_FIELD.####`  | Override the activity name for game type #### with : field in the raw section of the response (response.raw[RAW_NAME_FIELD])    | `string` |
