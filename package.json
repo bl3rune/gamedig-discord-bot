@@ -1,6 +1,6 @@
 {
   "name": "gamedig-discord-bot",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "gulp",
@@ -8,7 +8,7 @@
     "start": "node ."
   },
   "devDependencies": {
-    "@types/gamedig": "^3.0.2",
+    "@types/gamedig": "^4.0.0",
     "@types/node": "^18.7.16",
     "del": "^7.0.0",
     "gulp": "^4.0.2",
@@ -23,7 +23,7 @@
   "dependencies": {
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2",
-    "gamedig": "^4.0.5",
+    "gamedig": "^4.0.6",
     "got": "^12.4.1",
     "rxjs": "^7.5.6"
   }

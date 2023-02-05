@@ -1,4 +1,4 @@
-import {ActivityType, ActivitiesOptions, Client, GatewayIntentBits, TextBasedChannel} from 'discord.js';
+import {ActivityType, Client, GatewayIntentBits, TextBasedChannel} from 'discord.js';
 import { Type } from 'gamedig';
 import { ServerResponse } from '../models/server-response';
 
@@ -52,6 +52,8 @@ private serverUp: Map<Type,boolean>;
             return this.idlePresence();
         }
 
+        let activitySeperator = process.env.SEPERATOR ? process.env.SEPERATOR : ' ///// ';
+
         let activities = '';
 
         for(let s of results) {
@@ -65,14 +67,14 @@ private serverUp: Map<Type,boolean>;
                 continue;
             }
 
-            let raw = status.raw as any;
-            let name = `${raw['game'] || status.name.replace(/[^a-zA-Z0-9 -]/g, '') || s.game} ${status.players.length}/${status.maxplayers} (${status.ping}ms) ${status.password ? '🔒': ''}`;
+            let activity = this.buildActivityText(s);
+            
             if (activities != '') {
                 activities = activities + ' ///// ';
             }
-            activities = activities + name;
+            activities = activities + activity;
             if (!this.serverUp.get(s.game)) {
-                console.log(`${s.game} : ${name}`);
+                console.log(`${s.game} : ${activity}`);
                 this.announce(s.game, true);
             }
             this.serverUp.set(s.game,true);
@@ -107,6 +109,33 @@ private serverUp: Map<Type,boolean>;
                 }
             }
         }
+    }
+
+    private buildActivityText(response: ServerResponse) : String {
+        let status = response.result;
+        
+        if (!status) return '';
+
+        let raw = status.raw as any;
+        let name = '';
+
+        let nameOverride = process.env['NAME_OVERRIDE' + '.' + response.game];
+        if (nameOverride) {
+            name = `${(status as any)[nameOverride]}`;
+        }
+
+        let rawNameOverride = process.env['RAW_NAME_OVERRIDE' + '.' + response.game];
+        if (rawNameOverride && name === '') {
+            name = `${raw[rawNameOverride]}`;
+        }
+
+        if (name === '') {
+            name = `${raw['game'] || status.name.replace(/[^a-zA-Z0-9 -]/g, '') || response.game}`
+        }
+
+        name = `${name} ${status.players.length}/${status.maxplayers} (${status.ping}ms) ${status.password ? '🔒': ''}`;
+            
+        return name;
     }
 
 }
