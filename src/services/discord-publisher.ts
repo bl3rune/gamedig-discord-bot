@@ -17,9 +17,9 @@ private serverUp: Map<Type,boolean>;
 
         client.on('warn', console.log);
 
-        this.ready = client.login(process.env.DISCORD_TOKEN || '');
         this.client = client;
         this.serverUp = new Map<Type,boolean>();
+        this.ready = client.login(process.env.DISCORD_TOKEN || '');
     }
 
     public async isReady(): Promise<string> {

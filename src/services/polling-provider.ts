@@ -1,5 +1,4 @@
-import {from, Observable, Subject, timer} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {Observable, Subject, timer} from 'rxjs';
 import { ServerResponse } from '../models/server-response';
 
 export abstract class PollingProvider {
@@ -7,9 +6,9 @@ export abstract class PollingProvider {
     private resultSubject = new Subject<ServerResponse[] | undefined>();
 
     protected constructor() {
-        timer(0, this.interval).pipe(
-            switchMap(() => from(this.retrieve())),
-        ).subscribe((val) => this.resultSubject.next(val));
+        timer(0, this.interval).subscribe(
+           () => this.retrieve().then(val => this.resultSubject.next(val))
+        );
     }
 
     provide(): Observable<ServerResponse[] | undefined> {
