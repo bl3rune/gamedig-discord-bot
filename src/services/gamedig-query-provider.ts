@@ -2,6 +2,7 @@ import {PollingProvider} from './polling-provider';
 import {query, Type} from 'gamedig';
 import { GameUrl } from '../models/game-url';
 import { ServerResponse } from '../models/server-response';
+import { Observable } from 'rxjs';
 
 export class GamedigQueryProvider extends PollingProvider {
 

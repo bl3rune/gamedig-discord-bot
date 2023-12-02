@@ -19,9 +19,9 @@ export class App {
     }
 
     public async start() {
-        this.updateSubscription = this.provider.provide().subscribe(async (response) => {
-            await this.publisher.publish(response);
-        })
+        this.updateSubscription = this.provider.provide().subscribe(response => {
+            this.publisher.publish(response);
+        });
     }
 
     public shutdown() {
