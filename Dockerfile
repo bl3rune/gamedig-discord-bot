@@ -3,7 +3,7 @@ FROM node:19-alpine as build
 WORKDIR /code
 RUN apk add --no-cache git
 COPY . .
-RUN npm ci && npm run build
+RUN npm run build
 
 FROM node:19-alpine
 
