@@ -1,4 +1,4 @@
-import {ActivityType, Client, GatewayIntentBits, TextBasedChannel} from 'discord.js';
+import { ActivityType, Client, GatewayIntentBits, TextBasedChannel } from 'discord.js';
 import { Type } from 'gamedig';
 import { ServerResponse } from '../models/server-response';
 
@@ -101,9 +101,9 @@ private serverUp: Map<Type,boolean>;
                 const textChat = channel as TextBasedChannel;
                 let message = '';
                 if (serverUp) {
-                    message = process.env['UP' + '.' + game] || '';
+                    message = process.env['UP' + '.' + game] || process.env['UP'] || '';
                 } else {
-                    message = process.env['DOWN' + '.' + game] || '';
+                    message = process.env['DOWN' + '.' + game] || process.env['DOWN'] || '';
                 }
                 if (message !== '') {
                     textChat.send(message);

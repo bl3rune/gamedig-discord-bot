@@ -26,7 +26,7 @@ This format holds 3 key pieces of information:
 - The hostname / IP address of the game server you want to query.
 - (Optional) The query port configured for the game server.
 
-This information is formatted in the following structure with the port being optional : `game:host:port`
+This information is formatted in the following structure with the port being optional : `game:host:port` or `game:host`
 Here are some examples below:
 - Omitting port number `przomboid:mysite.com`
 - With port number `minecraft:mysite.com:25565`
@@ -39,15 +39,20 @@ When running as a docker container provide the following as Docker environment v
 When running as a nodejs app you can create an `.env` file in the root directory of the project and set the options there (see the `.env.example` file for an example). 
 You need to set the following configuration options.
 
-| Required | Configuration option   | Description | Value  |
-| -------- | ---------------------- | ----------- | ------ |
-| TRUE     | `GAME_URLS`            | Comma seperated list of GameUrl format entries [see GameUrl format section](#gameurl-format)                                    | `string` |
-| TRUE     | `DISCORD_TOKEN`        | The bot token of your discord app from https://discord.com/developers/applications -> (Select your application) -> Bot -> Token | `string` |
-| FALSE    | `DISCORD_CHANNEL`      | The channel id of your discord chat to send server availability to                                                              | `string` |
-| FALSE    | `UP.####`              | Message to be sent on server available for game type #### (DISCORD_CHANNEL must be provided)                                    | `string` |
-| FALSE    | `DOWN.####`            | Message to be sent on server unavailable for game type #### (DISCORD_CHANNEL must be provided)                                  | `string` |
-| FALSE    | `IDLE_STATUS`          | Override idle status messaging for the bot when no servers are available                                                        | `string` |
-| FALSE    | `SEPERATOR`            | Override the seperator text that appears between multiple activities                                                            | `string` |
-| FALSE    | `NAME_OVERRIDE.####`   | Override the activity name for game type #### with : variable string value                                                      | `string` |
-| FALSE    | `NAME_FIELD.####`      | Override the activity name for game type #### with : field on the response object (response[NAME_FIELD])                        | `string` |
-| FALSE    | `RAW_NAME_FIELD.####`  | Override the activity name for game type #### with : field in the raw section of the response (response.raw[RAW_NAME_FIELD])    | `string` |
+| Required | Configuration option   | Default             | Description                                                                                                                     | Value    |
+| -------- | ---------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| TRUE     | `GAME_URLS`            |                     | Comma seperated list of GameUrl format entries [see GameUrl format section](#gameurl-format)                                    | `string` |
+| TRUE     | `DISCORD_TOKEN`        |                     | The bot token of your discord app from https://discord.com/developers/applications -> (Select your application) -> Bot -> Token | `string` |
+| FALSE    | `DISCORD_CHANNEL`      |                     | The channel id of your discord chat to send server availability to                                                              | `string` |
+| FALSE    | `UP.####`              |                     | Message to be sent on server available for game type `####` (`DISCORD_CHANNEL` must be provided)                                | `string` |
+| FALSE    | `DOWN.####`            |                     | Message to be sent on server unavailable for game type `####` (`DISCORD_CHANNEL` must be provided)                              | `string` |
+| FALSE    | `UP`                   |                     | Message to be sent on server available for any game when `UP.####` is not available (`DISCORD_CHANNEL` must be provided)        | `string` |
+| FALSE    | `DOWN`                 |                     | Message to be sent on server unavailable for any game when `DOWN.####` is not available (`DISCORD_CHANNEL` must be provided)    | `string` |
+| FALSE    | `IDLE_STATUS`          | `No servers running`| Override idle status messaging for the bot when no servers are available                                                        | `string` |
+| FALSE    | `SEPERATOR`            | ` ///// `           | Override the seperator text that appears between multiple activities                                                            | `string` |
+| FALSE    | `NAME_OVERRIDE.####`   |                     | Override the activity name for game type `####` with : variable string value                                                    | `string` |
+| FALSE    | `NAME_FIELD.####`      |                     | Override the activity name for game type `####` with : field on the response object (response[NAME_FIELD])                      | `string` |
+| FALSE    | `RAW_NAME_FIELD.####`  |                     | Override the activity name for game type `####` with : field in the raw section of the response (response.raw[RAW_NAME_FIELD])  | `string` |
+| FALSE    | `UDP_PORT`             |                     | Use a fixed UDP port see https://www.npmjs.com/package/gamedig/v/4.3.1#specifying-a-listen-udp-port-override                    | `string` |
+| FALSE    | `HTTP_ENABLED`         | FALSE               | Enable the HTTP server that handles direct requests in the format : `/server/port/protocol` or `/server/port`                   | `boolean`|
+| FALSE    | `HTTP_PORT`            | 80                  | HTTP port to host server on and handle requests in the format : `/server/port/protocol` or `/server/port`                       | `string` |
