@@ -1,12 +1,14 @@
-import {PollingProvider} from './polling-provider';
-import {query, Type} from 'gamedig';
+import { PollingProvider } from './polling-provider';
+import { Type } from 'gamedig';
+import Gamedig = require("gamedig");
 import { GameUrl } from '../models/game-url';
 import { ServerResponse } from '../models/server-response';
-import { Observable } from 'rxjs';
 
 export class GamedigQueryProvider extends PollingProvider {
 
     private gameUrls: GameUrl[];
+
+    private gamedig = new Gamedig({ listenUdpPort: process.env.UDP_PORT ? parseInt(process.env.UDP_PORT) : undefined});
 
     constructor() {
         super();
@@ -25,7 +27,7 @@ export class GamedigQueryProvider extends PollingProvider {
         let results = new Array<ServerResponse>();
         for (let g of this.gameUrls) {
             results.push(new ServerResponse(g.game,
-                await query({
+                await this.gamedig.query({
                     type: g.game,
                     host: g.host,
                     port: g.port,

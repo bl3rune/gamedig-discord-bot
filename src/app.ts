@@ -1,6 +1,6 @@
-import {GamedigQueryProvider} from './services/gamedig-query-provider';
-import {DiscordPublisher} from './services/discord-publisher';
-import {Subscription} from 'rxjs';
+import { GamedigQueryProvider } from './services/gamedig-query-provider';
+import { DiscordPublisher } from './services/discord-publisher';
+import { Subscription } from 'rxjs';
 
 export class App {
     private provider: GamedigQueryProvider;

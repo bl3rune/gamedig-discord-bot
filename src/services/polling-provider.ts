@@ -1,4 +1,4 @@
-import {Observable, Subject, timer} from 'rxjs';
+import { Observable, Subject, timer } from 'rxjs';
 import { ServerResponse } from '../models/server-response';
 
 export abstract class PollingProvider {
