@@ -19,7 +19,8 @@ app.isReady().then(async () => {
 const gamedig = new Gamedig({ listenUdpPort: process.env.UDP_PORT ? parseInt(process.env.UDP_PORT) : undefined});
 const httpPort = process.env.HTTP_PORT ? parseInt(process.env.HTTP_PORT) : 80;
 
-if (!process.env.HTTP_ENABLED) {
+if (process.env.HTTP_ENABLED) {
+  console.log('Starting HTTP Server...');
   http.createServer(async (req: any, res: any) => {
       let urlPath = req.url;
       if (urlPath.charAt(0) == "/") urlPath = urlPath.substr(1);
@@ -29,21 +30,21 @@ if (!process.env.HTTP_ENABLED) {
       const port = rawGameUrl[2] ? parseInt(rawGameUrl[2]) : undefined;
     
       if (urlPath === "/" || urlPath === "") {
-          res.end('Use gamedig queries like /server/port/protocol or /server/port (assumes default game port)');
+          res.end('Use gamedig queries like /game-protocol/server/port or /game-protocol/server (assumes default game port)');
       } else {
           try {
               const data = await gamedig.query({
                   type: gameString as GameType,
                   host: host,
                   port: port,
-              }).catch(e => "Failed to connect to game server");
+              }).catch(e => "Failed to connect to game server" + e);
               res.write(JSON.stringify(data))
           } catch(e) {
               res.write(e + " : see list of supported games (https://www.npmjs.com/package/gamedig#user-content-games-list) for the Game Type ID of your game");
           }
           res.end();
       }
-  }).listen(httpPort, "localhost", () => console.log("Listening for requests at " + httpPort));
+  }).listen(httpPort, "localhost", () => console.log("Listening for HTTP requests at " + httpPort));
 }
 
 process.on('SIGINT', () => {
