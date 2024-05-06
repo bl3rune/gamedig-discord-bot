@@ -4,7 +4,7 @@ This supports a wide range of different game types and only requires the game se
 This protocol will query the game server directly. Please make sure that the host where the bot is hosted, is able to access the game server on the specified query port.
 
 
-## Installation and usage
+## Installation
 
 There are basically two ways to run and configure this discord bot:
 
@@ -12,12 +12,41 @@ There are basically two ways to run and configure this discord bot:
 * as a plain nodejs app
 
 
-#### Run as a plain nodejs app
+### Run as a plain nodejs app
 
 * Build the project: `npm ci`
 * Start the bot: `npm start`
 * Configure the bot with the necessary configuration
 
+### Run as docker app
+
+#### Docker compose
+```yaml
+---
+services:
+  gamedig-discord-bot:
+    image: bl3rune/gamedig-discord-bot:latest
+    container_name: gamedig-discord-bot
+    environment:
+      - GAME_URLS=minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com
+      - DISCORD_TOKEN=add-token-here
+    ports:
+      - 80:80 # Optional for HTTP Server
+    restart: unless-stopped
+```
+
+#### Docker cli
+```bash
+docker run -d \
+  --name=gamedig-discord-bot \
+  -e GAME_URLS=minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com \
+  -e DISCORD_TOKEN=add-token-here \
+  -p 80:80 \
+  --restart unless-stopped \
+  bl3rune/gamedig-discord-bot:latest
+```
+
+## Usage
 
 ### GameUrl Format
 
@@ -33,7 +62,12 @@ Here are some examples below:
 - Using ip instead of hostname `csgo:23.4.140.70`
 - Multiple defined in `GAME_URLS` config `minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com`
 
-### Configure the bot
+### HTTP Server Requests
+Disabled by default, but can be configured using the `HTTP_ENABLED` variable.
+Handles requests in the format : `/server/protocol/port` or `/server/protocol`
+Can be locked down to only allow querying of specific severs using `HTTP_ALLOWED_SERVERS`
+
+## Configuration
 
 When running as a docker container provide the following as Docker environment variables.
 When running as a nodejs app you can create an `.env` file in the root directory of the project and set the options there (see the `.env.example` file for an example). 
@@ -54,5 +88,6 @@ You need to set the following configuration options.
 | FALSE    | `NAME_FIELD.####`      |                     | Override the activity name for game type `####` with : field on the response object (response[NAME_FIELD])                      | `string` |
 | FALSE    | `RAW_NAME_FIELD.####`  |                     | Override the activity name for game type `####` with : field in the raw section of the response (response.raw[RAW_NAME_FIELD])  | `string` |
 | FALSE    | `UDP_PORT`             |                     | Use a fixed UDP port see https://www.npmjs.com/package/gamedig/v/4.3.1#specifying-a-listen-udp-port-override                    | `string` |
-| FALSE    | `HTTP_ENABLED`         | FALSE               | Enable the HTTP server that handles direct requests in the format : `/server/port/protocol` or `/server/port`                   | `boolean`|
-| FALSE    | `HTTP_PORT`            | 80                  | HTTP port to host server on and handle requests in the format : `/server/port/protocol` or `/server/port`                       | `string` |
+| FALSE    | `HTTP_ENABLED`         | FALSE               | Enable the HTTP server that handles direct requests in the format : `/server/protocol/port` or `/server/protocol`               | `boolean`|
+| FALSE    | `HTTP_PORT`            | 80                  | HTTP port to host server on and handle requests in the format : `/server/protocol/port` or `/server/protocol`                   | `string` |
+| FALSE    | `HTTP_ALLOWED_SERVERS` |                     | List of allowed server addresses to filter HTTP request by, seperated by a `:` e.g.`example.com:test.net` Disabled by default.  | `string` |
