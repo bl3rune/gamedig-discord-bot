@@ -26,7 +26,7 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@types/gamedig": "^4.0.5",
+    "@types/gamedig": "^5.0.1",
     "eslint": "^9.2.0",
     "tsup": "^8.0.1",
     "tsx": "^4.6.2",
