@@ -28,17 +28,16 @@ if (process.env.HTTP_ENABLED) {
       const host = rawGameUrl[0];
       const gameString = rawGameUrl[1];
       const port = rawGameUrl[2] ? parseInt(rawGameUrl[2]) : undefined;
-
-      if (process.env.HTTP_ALLOWED_SERVERS) {
-        const allowed = process.env.HTTP_ALLOWED_SERVERS.split(':');
-        if (allowed.every((val) => val.toLowerCase() != host.toLowerCase())) {
-            res.end('Server address is not in list of HTTP_ALLOWED_SERVERS');
-        }
-      }
     
       if (urlPath === "/" || urlPath === "") {
           res.end('Use gamedig queries like /server/game-protocol/port or /server/game-protocol (assumes default game port)');
       } else {
+          if (process.env.HTTP_ALLOWED_SERVERS) {
+            const allowed = process.env.HTTP_ALLOWED_SERVERS.split(':');
+            if (allowed.every((val) => val.toLowerCase() != host.toLowerCase())) {
+              res.end('Server address is not in list of HTTP_ALLOWED_SERVERS');
+            }
+          }
           try {
               const data = await gamedig.query({
                   type: gameString as GameType,
@@ -51,7 +50,7 @@ if (process.env.HTTP_ENABLED) {
           }
           res.end();
       }
-  }).listen(httpPort, "localhost", () => console.log("Listening for HTTP requests at " + httpPort));
+  }).listen(httpPort, () => console.log("Listening for HTTP requests at " + httpPort));
 }
 
 process.on('SIGINT', () => {
