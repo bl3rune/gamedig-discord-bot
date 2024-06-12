@@ -15,9 +15,10 @@ jobs:
       - run: git config user.name "bl3rune"
       - run: npm version patch -m "v%s"
       - run: VERSION=$(node -p "require('./package.json').version")
+      - run: echo "Version=$VERSION" >> $GITHUB_ENV
       - run: git tag ${VERSION}
-      - run: git push -f "https://bl3rune:${{ secrets.ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" --follow-tags
-      - run: git push -f "https://bl3rune:${{ secrets.ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" --tags
+      - run: git push "https://bl3rune:${{ secrets.ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" --follow-tags
+      - run: git push "https://bl3rune:${{ secrets.ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" --tags
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -32,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: bl3rune/gamedig-discord-bot:latest,bl3rune/gamedig-discord-bot:${{VERSION}}
+          tags: bl3rune/gamedig-discord-bot:latest,bl3rune/gamedig-discord-bot:${{ env.Version }}
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         with:
