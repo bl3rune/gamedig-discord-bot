@@ -22,11 +22,11 @@
   "dependencies": {
     "discord.js": "^14.15.3",
     "dotenv": "^16.3.1",
-    "gamedig": "^4.2.0",
+    "gamedig": "^5.0.0",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@types/gamedig": "^5.0.1",
+    "@types/gamedig": "^5.0.2",
     "eslint": "^9.5.0",
     "tsup": "^8.1.0",
     "tsx": "^4.15.6",
