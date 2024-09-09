@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/gamedig": "^5.0.1",
-    "eslint": "^9.8.0",
+    "eslint": "^9.10.0",
     "tsup": "^8.2.4",
     "tsx": "^4.16.2",
     "typescript": "^5.5.4"
