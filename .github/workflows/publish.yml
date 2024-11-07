@@ -20,24 +20,24 @@ jobs:
       - run: git push "https://bl3rune:${{ secrets.ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" --tags
       - name: get-npm-version
         id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           push: true
           tags: bl3rune/gamedig-discord-bot:latest,bl3rune/gamedig-discord-bot:${{steps.package-version.outputs.current-version}}
       - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}

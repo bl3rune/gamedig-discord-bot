@@ -1,11 +1,10 @@
-import { ActivityType, Client, GatewayIntentBits, TextBasedChannel } from 'discord.js';
-import { Type } from 'gamedig';
+import { ActivityType, Client, GatewayIntentBits, SendableChannels } from 'discord.js';
 import { ServerResponse } from '../models/server-response';
 
 export class DiscordPublisher {
 private client: Client;
 private ready: Promise<string>;
-private serverUp: Map<Type,boolean>;
+private serverUp: Map<string,boolean>;
 
     constructor() {
         var client = new Client({intents: [GatewayIntentBits.Guilds]});
@@ -18,7 +17,7 @@ private serverUp: Map<Type,boolean>;
         client.on('warn', console.log);
 
         this.client = client;
-        this.serverUp = new Map<Type,boolean>();
+        this.serverUp = new Map<string,boolean>();
         this.ready = client.login(process.env.DISCORD_TOKEN || '');
     }
 
@@ -94,11 +93,11 @@ private serverUp: Map<Type,boolean>;
         }
     }
 
-    async announce(game: Type, serverUp: boolean) {
+    async announce(game: string, serverUp: boolean) {
         if (process.env.DISCORD_CHANNEL) {
             const channel = await this.client.channels.fetch(process.env.DISCORD_CHANNEL);
-            if (channel?.isTextBased()) {
-                const textChat = channel as TextBasedChannel;
+            if (channel?.isSendable) {
+                const textChat = channel as SendableChannels;
                 let message = '';
                 if (serverUp) {
                     message = process.env['UP' + '.' + game] || process.env['UP'] || '';
