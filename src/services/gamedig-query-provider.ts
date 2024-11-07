@@ -1,6 +1,5 @@
 import { PollingProvider } from './polling-provider';
-import { Type } from 'gamedig';
-import Gamedig = require("gamedig");
+import { GameDig } from 'gamedig';
 import { GameUrl } from '../models/game-url';
 import { ServerResponse } from '../models/server-response';
 
@@ -8,7 +7,7 @@ export class GamedigQueryProvider extends PollingProvider {
 
     private gameUrls: GameUrl[];
 
-    private gamedig = new Gamedig({ listenUdpPort: process.env.UDP_PORT ? parseInt(process.env.UDP_PORT) : undefined});
+    private gamedig = new GameDig({ listenUdpPort: process.env.UDP_PORT ? parseInt(process.env.UDP_PORT) : undefined});
 
     constructor() {
         super();
@@ -16,7 +15,7 @@ export class GamedigQueryProvider extends PollingProvider {
         this.gameUrls = rawGameUrls.filter((raw) => raw.split(':').length > 1).map(g => {
             let rawUrl = g.split(':');
             return {
-                game: rawUrl[0] as Type,
+                game: rawUrl[0],
                 host: rawUrl[1],
                 port: rawUrl[2] ? parseInt(rawUrl[2]) : undefined
             } as GameUrl;

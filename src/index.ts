@@ -1,7 +1,6 @@
 import { config } from 'dotenv';
 import { App } from './app';
-import { Type as GameType } from 'gamedig';
-import Gamedig = require("gamedig");
+import { GameDig } from 'gamedig';
 const http = require("http");
 
 config();
@@ -16,7 +15,7 @@ app.isReady().then(async () => {
     process.exit(1);
 });
 
-const gamedig = new Gamedig({ listenUdpPort: process.env.UDP_PORT ? parseInt(process.env.UDP_PORT) : undefined});
+const gamedig = new GameDig({ listenUdpPort: process.env.UDP_PORT ? parseInt(process.env.UDP_PORT) : undefined});
 const httpPort = process.env.HTTP_PORT ? parseInt(process.env.HTTP_PORT) : 80;
 
 if (process.env.HTTP_ENABLED) {
@@ -41,7 +40,7 @@ if (process.env.HTTP_ENABLED) {
           }
           try {
               const data = await gamedig.query({
-                  type: gameString as GameType,
+                  type: gameString,
                   host: host,
                   port: port,
               }).catch(e => "Failed to connect to game server" + e);

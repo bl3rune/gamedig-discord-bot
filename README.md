@@ -6,7 +6,7 @@ This protocol will query the game server directly. Please make sure that the hos
 
 ## Installation
 
-There are basically two ways to run and configure this discord bot:
+There are two ways to run and configure this discord bot:
 
 * as a docker container
 * as a plain nodejs app
@@ -14,7 +14,7 @@ There are basically two ways to run and configure this discord bot:
 
 ### Run as a plain nodejs app
 
-* Build the project: `npm ci`
+* Build the project: `npm install`
 * Start the bot: `npm start`
 * Configure the bot with the necessary configuration
 
@@ -28,7 +28,7 @@ services:
     image: bl3rune/gamedig-discord-bot:latest
     container_name: gamedig-discord-bot
     environment:
-      - GAME_URLS=minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com
+      - GAME_URLS=minecraft:mysite.com:25565,valheim:mysite.com
       - DISCORD_TOKEN=add-token-here
     ports:
       - 80:80 # Optional for HTTP Server
@@ -39,7 +39,7 @@ services:
 ```bash
 docker run -d \
   --name=gamedig-discord-bot \
-  -e GAME_URLS=minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com \
+  -e GAME_URLS=minecraft:mysite.com:25565,valheim:mysite.com \
   -e DISCORD_TOKEN=add-token-here \
   -p 80:80 \
   --restart unless-stopped \
@@ -51,16 +51,16 @@ docker run -d \
 ### GameUrl Format
 
 This format holds 3 key pieces of information:
-- One of the supported game types. See the [list of supported games](https://www.npmjs.com/package/gamedig#user-content-games-list) for the Game Type ID of your game.
+- One of the supported game types. See the [list of supported games](https://github.com/gamedig/node-gamedig/blob/HEAD/GAMES_LIST.md) for the Game Type ID of your game.
 - The hostname / IP address of the game server you want to query.
 - (Optional) The query port configured for the game server.
 
 This information is formatted in the following structure with the port being optional : `game:host:port` or `game:host`
 Here are some examples below:
-- Omitting port number `przomboid:mysite.com`
+- Omitting port number `minecraft:mysite.com`
 - With port number `minecraft:mysite.com:25565`
-- Using ip instead of hostname `csgo:23.4.140.70`
-- Multiple defined in `GAME_URLS` config `minecraft:mysite.com:25565,przomboid:mysite.com,valheim:mysite.com`
+- Using ip instead of hostname `valheim:23.4.140.70`
+- Multiple defined in `GAME_URLS` config `minecraft:mysite.com:25565,valheim:mysite.com`
 
 ### HTTP Server Requests
 Disabled by default, but can be configured using the `HTTP_ENABLED` variable.

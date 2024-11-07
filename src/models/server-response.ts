@@ -1,10 +1,10 @@
-import {QueryResult, Type} from 'gamedig';
+import {QueryResult} from 'gamedig';
 
 export class ServerResponse {
-    game: Type;
+    game: string;
     result: QueryResult | undefined;
 
-    constructor(game: Type, result?: QueryResult){
+    constructor(game: string, result?: QueryResult){
         this.game = game;
         this.result = result
     }

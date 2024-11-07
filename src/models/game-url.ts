@@ -1,12 +1,10 @@
-import { Type } from "gamedig";
-
 export class GameUrl {
 
-    game: Type;
+    game: string;
     host: string;
     port: number | undefined;
 
-    constructor(game: Type, host: string, port?: number) {
+    constructor(game: string, host: string, port?: number) {
         this.game = game;
         this.host = host;
         this.port = port;
