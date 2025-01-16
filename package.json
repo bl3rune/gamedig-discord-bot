@@ -26,8 +26,8 @@
     "rxjs": "^7.8.1"
   },
   "engines": {
-    "npm": ">=10.0.0",
-    "node": ">=22.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "@types/gamedig": "^5.0.3",
