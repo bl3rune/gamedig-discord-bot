@@ -2,7 +2,7 @@ import { Observable, Subject, timer } from 'rxjs';
 import { ServerResponse } from '../models/server-response';
 
 export abstract class PollingProvider {
-    private interval: number = 10000;
+    private interval: number = process.env.POLLING_INTERVAL ? Number(process.env.POLLING_INTERVAL) : 10000;
     private resultSubject = new Subject<ServerResponse[] | undefined>();
 
     protected constructor() {
