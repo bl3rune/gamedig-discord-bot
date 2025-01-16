@@ -119,11 +119,20 @@ private consecutiveStatusThreshold = process.env.STATUS_THRESHOLD ?
 
     private successiveStatusThresholdMet(game: string, serverUp: boolean) : boolean {
         let count = this.statusCount.get(game) || 0;
-        count += serverUp ? 1 : -1;
-        this.statusCount.set(game, count);
-        if (count > this.consecutiveStatusThreshold || count < -this.consecutiveStatusThreshold) {
-            return true;
+
+        if (serverUp) {
+            count = count < 0 ? 1 : count + 1
+            if (count > this.consecutiveStatusThreshold) {
+                return true;
+            }
+        } else {
+            count = count > 0 ? -1 : count - 1
+            if (count < -this.consecutiveStatusThreshold) {
+                return true;
+            }
         }
+        
+        this.statusCount.set(game, count);
         return false;
     }
 
