@@ -5,6 +5,9 @@ export class DiscordPublisher {
 private client: Client;
 private ready: Promise<string>;
 private serverUp: Map<string,boolean>;
+private statusCount: Map<string,number>;
+private consecutiveStatusThreshold = process.env.STATUS_THRESHOLD ? 
+        Number(process.env.STATUS_THRESHOLD) : 3;
 
     constructor() {
         var client = new Client({intents: [GatewayIntentBits.Guilds]});
@@ -18,6 +21,7 @@ private serverUp: Map<string,boolean>;
 
         this.client = client;
         this.serverUp = new Map<string,boolean>();
+        this.statusCount = new Map<string,number>();
         this.ready = client.login(process.env.DISCORD_TOKEN || '');
     }
 
@@ -43,10 +47,10 @@ private serverUp: Map<string,boolean>;
 
         if (!results || results.length == 0) {
             this.serverUp.forEach((up, game) => {
-                if (up) {
+                if (up && this.successiveStatusThresholdMet(game, false)) {
                     this.announce(game, false);
+                    up = false
                 }
-                up = false
             });
             return this.idlePresence();
         }
@@ -58,10 +62,12 @@ private serverUp: Map<string,boolean>;
         for(let s of results) {
             let status = s.result;
 
-            if (!status) {
-                if (this.serverUp.get(s.game)) {
-                    this.announce(s.game, false);
-                }
+            if (!this.serverUp.has(s.game)) {
+                this.serverUp.set(s.game, status ? true : false)
+            }
+
+            if (!status && this.serverUp.get(s.game) && this.successiveStatusThresholdMet(s.game, false)) {
+                this.announce(s.game, false);
                 this.serverUp.set(s.game,false);
                 continue;
             }
@@ -109,6 +115,16 @@ private serverUp: Map<string,boolean>;
                 }
             }
         }
+    }
+
+    private successiveStatusThresholdMet(game: string, serverUp: boolean) : boolean {
+        let count = this.statusCount.get(game) || 0;
+        count += serverUp ? 1 : -1;
+        this.statusCount.set(game, count);
+        if (count > this.consecutiveStatusThreshold || count < -this.consecutiveStatusThreshold) {
+            return true;
+        }
+        return false;
     }
 
     private buildActivityText(response: ServerResponse) : String {
