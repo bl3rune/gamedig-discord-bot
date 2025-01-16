@@ -1,6 +1,6 @@
 {
   "name": "gamedig-discord-bot",
-  "version": "2.0.2",
+  "version": "2.0.6",
   "description": "Discord Bot for realtime gamedig server queries",
   "main": "dist/index.js",
   "scripts": {
@@ -26,14 +26,14 @@
     "rxjs": "^7.8.1"
   },
   "engines": {
-    "npm": ">=10.0.0",
-    "node": ">=22.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "@types/gamedig": "^5.0.3",
     "eslint": "^9.16.0",
     "tsup": "^8.2.4",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   }
 }
