@@ -7,7 +7,7 @@ private ready: Promise<string>;
 private serverUp: Map<string,boolean>;
 private statusCount: Map<string,number>;
 private consecutiveStatusThreshold = process.env.STATUS_THRESHOLD ? 
-        Number(process.env.STATUS_THRESHOLD) : 3;
+        Number(process.env.STATUS_THRESHOLD) : 5;
 
     constructor() {
         var client = new Client({intents: [GatewayIntentBits.Guilds]});
@@ -63,12 +63,20 @@ private consecutiveStatusThreshold = process.env.STATUS_THRESHOLD ?
             let status = s.result;
 
             if (!this.serverUp.has(s.game)) {
-                this.serverUp.set(s.game, status ? true : false)
+                this.serverUp.set(s.game, false) // start DOWN
             }
 
-            if (!status && this.serverUp.get(s.game) && this.successiveStatusThresholdMet(s.game, false)) {
-                this.announce(s.game, false);
-                this.serverUp.set(s.game,false);
+            if (!status) {
+                if (this.serverUp.get(s.game)) {
+                    if (this.successiveStatusThresholdMet(s.game, false)) {
+                        this.announce(s.game, false);
+                        this.serverUp.set(s.game,false);
+                    } else if (this.serverUp.get(s.game)) {
+                        console.log("checking :: " + s.game + " :: is DOWN #" + this.statusCount.get(s.game))
+                    }
+                } else {
+                    this.statusCount.set(s.game, 0);
+                }
                 continue;
             }
 
@@ -79,11 +87,17 @@ private consecutiveStatusThreshold = process.env.STATUS_THRESHOLD ?
             }
             activities = activities + activity;
             if (!this.serverUp.get(s.game)) {
-                console.log(`${s.game} : ${activity}`);
-                console.log(status);
-                this.announce(s.game, true);
+                if (this.successiveStatusThresholdMet(s.game, true)) {
+                    console.log(`${s.game} : ${activity}`);
+                    console.log(status);
+                    this.announce(s.game, true);
+                    this.serverUp.set(s.game,true);
+                } else {
+                    console.log("checking :: " + s.game + " :: is UP #" + this.statusCount.get(s.game))
+                }
+            } else {
+                this.statusCount.set(s.game, 0);
             }
-            this.serverUp.set(s.game,true);
         }
 
         if (activities === '') {
@@ -127,11 +141,11 @@ private consecutiveStatusThreshold = process.env.STATUS_THRESHOLD ?
             }
         } else {
             count = count > 0 ? -1 : count - 1
-            if (count < -this.consecutiveStatusThreshold) {
+            if (count < (0 - this.consecutiveStatusThreshold)) {
                 return true;
             }
         }
-        
+
         this.statusCount.set(game, count);
         return false;
     }

@@ -79,7 +79,7 @@ You need to set the following configuration options.
 | TRUE     | `DISCORD_TOKEN`        |                     | The bot token of your discord app from https://discord.com/developers/applications -> (Select your application) -> Bot -> Token      | `string` |
 | FALSE    | `DISCORD_CHANNEL`      |                     | The channel id of your discord chat to send server availability to                                                                   | `string` |
 | FALSE    | `POLLING_INTERVAL`     | 10000               | The polling interval to poll the servers in milliseconds                                                                             | `number` |
-| FLASE    | `STATUS_THRESHOLD`     | 3                   | The number of consecutive times a server has to be counted as UP / DOWN before doing an announcement                                 | `number` |
+| FLASE    | `STATUS_THRESHOLD`     | 5                   | The number of consecutive times a server has to be counted as UP / DOWN before doing an announcement                                 | `number` |
 | FALSE    | `UP.####`              |                     | Message to be sent on server available for game type `####` (`DISCORD_CHANNEL` must be provided)                                     | `string` |
 | FALSE    | `DOWN.####`            |                     | Message to be sent on server unavailable for game type `####` (`DISCORD_CHANNEL` must be provided)                                   | `string` |
 | FALSE    | `UP`                   |                     | Default message to be sent on server available for any game when `UP.####` is not available (`DISCORD_CHANNEL` must be provided)     | `string` |
