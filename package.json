@@ -1,6 +1,6 @@
 {
   "name": "gamedig-discord-bot",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Discord Bot for realtime gamedig server queries",
   "main": "dist/index.js",
   "scripts": {
