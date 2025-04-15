@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import { App } from './app';
 import { GameDig } from 'gamedig';
 const http = require("http");
+const url = require("url");
 
 config();
 
@@ -24,9 +25,14 @@ if (process.env.HTTP_ENABLED) {
       let urlPath = req.url;
       if (urlPath.charAt(0) == "/") urlPath = urlPath.substr(1);
       const rawGameUrl = urlPath.split('/');
+      if (rawGameUrl.length < 2) {
+        return res.end('Invalid URL format');
+      }
       const host = rawGameUrl[0];
       const gameString = rawGameUrl[1];
       const port = rawGameUrl[2] ? parseInt(rawGameUrl[2]) : undefined;
+      var q = url.parse(req.url, true).query;
+      const token = q && q.token ? q.token as string : undefined;
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
       if (urlPath === "/" || urlPath === "") {
@@ -43,6 +49,7 @@ if (process.env.HTTP_ENABLED) {
                   type: gameString,
                   host: host,
                   port: port,
+                  token: token
               }).catch(e => "Failed to connect to game server" + e);
               res.write(JSON.stringify(data))
           } catch(e) {
