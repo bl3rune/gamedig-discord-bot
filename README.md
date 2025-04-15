@@ -55,10 +55,11 @@ This format holds 3 key pieces of information:
 - The hostname / IP address of the game server you want to query.
 - (Optional) The query port configured for the game server.
 
-This information is formatted in the following structure with the port being optional : `game:host:port` or `game:host`
+This information is formatted in the following structure with the port being optional : `game:host` or `game:host:port` or `game:host:port:additional`
 Here are some examples below:
 - Omitting port number `minecraft:mysite.com`
 - With port number `minecraft:mysite.com:25565`
+- With additional field `terrariatshock:mysite.com:7878:terraria_rest_api_token`
 - Using ip instead of hostname `valheim:23.4.140.70`
 - Multiple defined in `GAME_URLS` config `minecraft:mysite.com:25565,valheim:mysite.com`
 
@@ -66,6 +67,8 @@ Here are some examples below:
 Disabled by default, but can be configured using the `HTTP_ENABLED` variable.
 Handles requests in the format : `/server/protocol/port` or `/server/protocol`
 Can be locked down to only allow querying of specific severs using `HTTP_ALLOWED_SERVERS`
+Special cases can pass through parameters like `?token=terraria_rest_api_token` for Tshock rest token
+
 
 ## Configuration
 
