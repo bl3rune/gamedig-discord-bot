@@ -37,7 +37,7 @@ jobs:
           push: true
           tags: bl3rune/gamedig-discord-bot:latest,bl3rune/gamedig-discord-bot:${{steps.package-version.outputs.current-version}}
       - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v4
+        uses: peter-evans/dockerhub-description@v5
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
