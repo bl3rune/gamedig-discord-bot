@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: git config user.email "bl3rune@users.noreply.github.com"
       - run: git config user.name "bl3rune"
       - run: npm version patch -m "v%s"
